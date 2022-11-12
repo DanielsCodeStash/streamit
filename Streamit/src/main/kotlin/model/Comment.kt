@@ -16,7 +16,7 @@ import java.time.ZoneId
 data class TopContainer(val data: TopContainerData)
 
 @Serializable
-data class TopContainerData(val after: String, val children: List<CommentContainer>)
+data class TopContainerData(val after: String?, val children: List<CommentContainer>)
 
 @Serializable
 data class CommentContainer(val data: Comment)
@@ -28,6 +28,8 @@ data class Comment(
     val downs: Int,
     val score: Int,
     val author: String,
+
+    val subreddit: String,
 
     @SerialName("link_title")
     val linkTitle: String,

@@ -46,11 +46,20 @@ fun getBasicClient(): HttpHandler {
 
 private fun rateLimitCheck(response: Response) {
     val remaining = response.header("x-ratelimit-remaining")!!.toInt()
+
     if(remaining < 50) {
-        println("Warning: only $remaining api requests remaining")
+        System.err.println("Warning: only $remaining api requests remaining")
     }
-    if(remaining < 10) {
+
+    if(remaining == 0) {
+
         System.err.println("OUT OF REQUESTS")
         exitProcess(1)
+
+    } else if(remaining < 5) {
+
+        val timeToReset = response.header("X-Ratelimit-Reset")!!.toInt()
+        System.err.println("Only $remaining requests left, sleeping $timeToReset s until estimated reset ")
+        Thread.sleep((timeToReset * 1000).toLong())
     }
 }

@@ -8,14 +8,15 @@ class Reddit(initialBearer: String) {
 
     private val client = RedditClient(initialBearer)
 
-    fun getSubredditComments(subreddit: String, maxNumComments: Int = 500, lastSeen: String = ""): List<Comment> {
+    fun getComments(subreddit: String, maxNumComments: Int = 500, lastSeen: String = ""): List<Comment> {
 
         var bumpedIntoMaxLimit = false
         var bumpedIntoLastSeen = false
-        var after = ""
+        var after: String? = ""
         val comments = mutableListOf<Comment>()
 
-        while (!bumpedIntoLastSeen && !bumpedIntoMaxLimit) {
+        while (!bumpedIntoLastSeen && !bumpedIntoMaxLimit && after != null) {
+
             val request = getRequest(subreddit, after)
             val response = client.sendRequest(request)
             val body = response.body.toString()
@@ -34,6 +35,7 @@ class Reddit(initialBearer: String) {
 
                 if(comments.size >= maxNumComments) {
                     bumpedIntoMaxLimit = true
+                    System.err.println("Bumped into maxNumComment limit on $subreddit of $maxNumComments")
                     break
                 }
             }
