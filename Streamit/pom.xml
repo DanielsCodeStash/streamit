@@ -125,17 +125,17 @@
         <dependency>
             <groupId>org.http4k</groupId>
             <artifactId>http4k-core</artifactId>
-            <version>4.33.2.1</version>
+            <version>4.36.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.http4k</groupId>
             <artifactId>http4k-client-apache</artifactId>
-            <version>4.33.2.1</version>
+            <version>4.36.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.http4k</groupId>
             <artifactId>http4k-security-oauth</artifactId>
-            <version>4.33.2.1</version>
+            <version>4.36.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>

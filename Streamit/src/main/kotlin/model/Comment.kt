@@ -1,5 +1,6 @@
 package model
 
+import LocalDateTimeSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -41,14 +42,3 @@ data class Comment(
     val created: LocalDateTime,
 )
 
-object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.DOUBLE)
-    override fun deserialize(decoder: Decoder): LocalDateTime {
-        val value = decoder.decodeDouble()
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(value.toLong()), ZoneId.systemDefault())
-    }
-
-    override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        TODO("Not yet implemented")
-    }
-}
