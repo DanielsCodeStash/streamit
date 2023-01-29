@@ -1,12 +1,4 @@
-import kotlinx.serialization.encodeToString
 import model.Comment
-import model.ElasticComment
-import org.http4k.client.ApacheClient
-import org.http4k.core.Body
-import org.http4k.core.Method
-import org.http4k.core.then
-import org.http4k.filter.ClientFilters
-import org.http4k.filter.RequestFilters
 
 class CommentStreamer(initialBearer: String, elasticUrl: String) {
 
@@ -24,7 +16,10 @@ class CommentStreamer(initialBearer: String, elasticUrl: String) {
         "teenagers",
         "wallstreetbets",
         "memes",
-        "CryptoCurrency")
+        "CryptoCurrency",
+        "UkraineRussiaReport",
+        "CombatFootage"
+    )
 
     fun start() {
 
@@ -38,18 +33,14 @@ class CommentStreamer(initialBearer: String, elasticUrl: String) {
 
     private fun processNewComments(subreddit: String) {
 
-        val comments = reddit.getComments(subreddit, maxComments, history.getLastComment(subreddit)).reversed()
+        val comments = reddit.getComments(subreddit, maxComments, history)
 
         comments.forEach { comment ->
             statistics.registerComment(subreddit, comment)
-            printComment(comment, subreddit)
+            //printComment(comment, subreddit)
             elastic.sendToElastic(comment)
         }
-
-        if (comments.isNotEmpty()) history.registerLastComment(subreddit, comments.last().id)
     }
-
-
 
     private fun printComment(comment: Comment, subreddit: String) {
         println("\n----- ${comment.author} at ${comment.created.toLocalTime()} - ${statistics.getStats(subreddit)} -----")

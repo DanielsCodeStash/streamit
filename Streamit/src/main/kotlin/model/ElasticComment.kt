@@ -16,7 +16,7 @@ data class ElasticComment(
     val linkTitle: String,
     val body: String,
 ) {
-    constructor(comment: Comment): this(
+    constructor(comment: Comment) : this(
         comment.created,
         comment.author,
         comment.subreddit,

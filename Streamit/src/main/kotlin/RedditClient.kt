@@ -3,12 +3,10 @@ import org.http4k.core.HttpHandler
 import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.then
-import org.http4k.filter.DebuggingFilters
 import org.http4k.filter.RequestFilters
 import kotlin.system.exitProcess
 
-class RedditClient(initialBearer: String)
-{
+class RedditClient(initialBearer: String) {
     private val tokenManager = TokenManager(initialBearer)
     private var client = tokenManager.getInitialClient()
 
@@ -18,10 +16,10 @@ class RedditClient(initialBearer: String)
 
         var response = client(request)
 
-        if(!tokenManager.authWasSuccessful(response)) {
+        if (!tokenManager.authWasSuccessful(response)) {
             client = tokenManager.getRefreshedToken()
             response = client(request)
-            if(!tokenManager.authWasSuccessful(response)) {
+            if (!tokenManager.authWasSuccessful(response)) {
                 System.err.println("Failed to auth")
                 exitProcess(-1)
             }
@@ -47,16 +45,16 @@ fun getBasicClient(): HttpHandler {
 private fun rateLimitCheck(response: Response) {
     val remaining = response.header("x-ratelimit-remaining")!!.toInt()
 
-    if(remaining < 50) {
+    if (remaining < 50) {
         System.err.println("Warning: only $remaining api requests remaining")
     }
 
-    if(remaining == 0) {
+    if (remaining == 0) {
 
         System.err.println("OUT OF REQUESTS")
         exitProcess(1)
 
-    } else if(remaining < 5) {
+    } else if (remaining < 5) {
 
         val timeToReset = response.header("X-Ratelimit-Reset")!!.toInt()
         System.err.println("Only $remaining requests left, sleeping $timeToReset s until estimated reset ")

@@ -8,7 +8,6 @@ import org.http4k.core.Status
 import org.http4k.core.then
 import org.http4k.filter.ClientFilters
 import org.http4k.filter.RequestFilters
-import java.time.LocalDateTime
 
 class Elastic(private val elasticUrl: String) {
 
@@ -26,9 +25,9 @@ class Elastic(private val elasticUrl: String) {
         val start = System.currentTimeMillis()
         val response = client(request)
         val sendTime = System.currentTimeMillis() - start
-        println("Es send time: $sendTime ms")
+        //println("Es send time: $sendTime ms")
 
-        if(response.status != Status.CREATED) {
+        if (response.status != Status.CREATED) {
             System.err.println("Elastic error: $response")
         }
     }

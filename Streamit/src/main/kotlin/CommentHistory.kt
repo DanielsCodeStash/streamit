@@ -1,10 +1,26 @@
+import model.Comment
+import java.util.*
+
 class CommentHistory {
 
-    private val subredditToLastReadComment = mutableMapOf<String, String>()
+    private val queueSizeLimit = maxComments * 2
 
-    fun registerLastComment(subreddit: String, commentId: String) {
-        subredditToLastReadComment[subreddit] = commentId
+    private val subredditToLastComments = mutableMapOf<String, Queue<String>>()
+
+
+    fun commentExistsInRecentHistory(subreddit: String, comment: Comment): Boolean {
+        return subredditToLastComments[subreddit]?.contains(comment.id) ?: return false
     }
 
-    fun getLastComment(subreddit: String) = subredditToLastReadComment[subreddit] ?: ""
+    fun registerMostRecentComment(subreddit: String, comment: Comment) {
+        var queue = subredditToLastComments[subreddit]
+        if (queue == null) {
+            queue = LinkedList()
+            subredditToLastComments[subreddit] = queue
+        }
+        if (queue.size >= queueSizeLimit) {
+            queue.remove()
+        }
+        queue.add(comment.id)
+    }
 }
