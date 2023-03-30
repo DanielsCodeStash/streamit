@@ -1,30 +1,16 @@
 import model.Comment
 
-class CommentStreamer(initialBearer: String, elasticUrl: String) {
+class CommentStreamer(private val config: Config) {
 
-    private val reddit = Reddit(initialBearer)
-    private val history = CommentHistory()
+    private val reddit = Reddit(config)
+    private val history = CommentHistory(config)
     private val statistics = StreamStatistics()
-    private val elastic = Elastic(elasticUrl)
-
-    private val subreddits = listOf(
-        "AskReddit",
-        "DotA2",
-        "politics",
-        "sweden",
-        "AmItheAsshole",
-        "teenagers",
-        "wallstreetbets",
-        "memes",
-        "CryptoCurrency",
-        "UkraineRussiaReport",
-        "CombatFootage"
-    )
+    private val elastic = Elastic(config)
 
     fun start() {
 
         while (true) {
-            subreddits.forEach { subreddit ->
+            config.subreddits.forEach { subreddit ->
                 processNewComments(subreddit)
                 Thread.sleep(1000)
             }
@@ -33,7 +19,7 @@ class CommentStreamer(initialBearer: String, elasticUrl: String) {
 
     private fun processNewComments(subreddit: String) {
 
-        val comments = reddit.getComments(subreddit, maxComments, history)
+        val comments = reddit.getComments(subreddit, config.maxCommentsPerRead, history)
 
         comments.forEach { comment ->
             statistics.registerComment(subreddit, comment)

@@ -33,7 +33,6 @@ class StreamStatistics {
         return "$totalNumComments total comments, ${stats.numComments} from subreddit, $commentsPerSec comments per sec avg"
     }
 
-
 }
 
 data class SubredditStats(

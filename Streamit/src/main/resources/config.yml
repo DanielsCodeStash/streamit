@@ -1,0 +1,17 @@
+subreddits:
+  - AskReddit
+  - DotA2
+  - politics
+  - sweden
+  - AmItheAsshole
+  - teenagers
+  - wallstreetbets
+  - memes
+  - CryptoCurrency
+  - UkraineRussiaReport
+  - CombatFootage
+
+elasticUrl: http://172.19.43.76:9200/streamit/_doc/
+
+# max number of comments read from a subreddit at a time (before moving on to next subreddit or waiting)
+maxCommentsPerRead: 100

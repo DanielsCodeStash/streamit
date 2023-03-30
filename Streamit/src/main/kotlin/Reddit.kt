@@ -3,11 +3,10 @@ import model.Comment
 import model.TopContainer
 import org.http4k.core.Method
 import org.http4k.core.Request
-import kotlin.system.exitProcess
 
-class Reddit(initialBearer: String) {
+class Reddit(config: Config) {
 
-    private val client = RedditClient(initialBearer)
+    private val client = RedditClient(config)
 
     fun getComments(subreddit: String, maxNumComments: Int, commentHistory: CommentHistory): List<Comment> {
 

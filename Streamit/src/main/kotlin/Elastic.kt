@@ -9,9 +9,9 @@ import org.http4k.core.then
 import org.http4k.filter.ClientFilters
 import org.http4k.filter.RequestFilters
 
-class Elastic(private val elasticUrl: String) {
+class Elastic(private val config: Config) {
 
-    private val client = ClientFilters.BasicAuth("elastic", "dJ1usBsu_mq5C=s_GaUj")
+    private val client = ClientFilters.BasicAuth(config.elasticUser, config.elasticPassword)
         .then(RequestFilters.SetHeader("Content-Type", "application/json"))
         .then(ApacheClient())
 
@@ -19,7 +19,7 @@ class Elastic(private val elasticUrl: String) {
 
         val json = json.encodeToString(ElasticComment(comment))
 
-        val request = org.http4k.core.Request(Method.POST, elasticUrl)
+        val request = org.http4k.core.Request(Method.POST, config.elasticUrl)
             .body(Body(json))
 
         val start = System.currentTimeMillis()

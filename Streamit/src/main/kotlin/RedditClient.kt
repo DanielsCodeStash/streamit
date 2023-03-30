@@ -6,8 +6,9 @@ import org.http4k.core.then
 import org.http4k.filter.RequestFilters
 import kotlin.system.exitProcess
 
-class RedditClient(initialBearer: String) {
-    private val tokenManager = TokenManager(initialBearer)
+class RedditClient(config: Config) {
+
+    private val tokenManager = TokenManager(config)
     private var client = tokenManager.getInitialClient()
 
     fun sendRequest(request: Request): Response {

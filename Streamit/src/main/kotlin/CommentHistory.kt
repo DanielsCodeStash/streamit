@@ -1,12 +1,10 @@
 import model.Comment
 import java.util.*
 
-class CommentHistory {
+class CommentHistory(config: Config) {
 
-    private val queueSizeLimit = maxComments * 2
-
+    private val queueSizeLimit = config.maxCommentsPerRead * 2
     private val subredditToLastComments = mutableMapOf<String, Queue<String>>()
-
 
     fun commentExistsInRecentHistory(subreddit: String, comment: Comment): Boolean {
         return subredditToLastComments[subreddit]?.contains(comment.id) ?: return false
