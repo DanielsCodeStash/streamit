@@ -8,7 +8,6 @@ import kotlin.system.exitProcess
 class Reddit(initialBearer: String) {
 
     private val client = RedditClient(initialBearer)
-    private val ids = mutableSetOf<String>() // TODO: Remove debugging when 100% sure we're not getting duplicates
 
     fun getComments(subreddit: String, maxNumComments: Int, commentHistory: CommentHistory): List<Comment> {
 
@@ -30,12 +29,6 @@ class Reddit(initialBearer: String) {
                 if (commentHistory.commentExistsInRecentHistory(subreddit, comment)) {
                     bumpedIntoLastSeen = true
                     break
-                }
-                if (ids.contains(comment.id)) {
-                    System.err.println("failed on ${comment.id}")
-                    exitProcess(0)
-                } else {
-                    ids.add(comment.id)
                 }
 
                 comments.add(comment)
