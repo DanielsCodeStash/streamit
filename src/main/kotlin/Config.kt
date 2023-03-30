@@ -3,6 +3,7 @@ import java.io.File
 import java.io.FileInputStream
 
 class Config {
+
     val clientString: String
     val clientSecret: String
     val initialBearer: String
@@ -23,9 +24,8 @@ class Config {
 
         val config = readResourceYml("config.yml")
         subreddits = config["subreddits"] as List<String>
-        elasticUrl = "http://172.19.43.76:9200/streamit/_doc/"
+        elasticUrl = config["elasticUrl"] as String
         maxCommentsPerRead = config["maxCommentsPerRead"] as Int
-
     }
 
     private fun readResourceYml(fileName: String): Map<String, Any> {
