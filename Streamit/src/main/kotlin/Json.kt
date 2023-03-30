@@ -11,15 +11,16 @@ import java.time.ZoneId
 
 val json = Json { ignoreUnknownKeys = true }
 
-
 object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.DOUBLE)
+
     override fun deserialize(decoder: Decoder): LocalDateTime {
         val value = decoder.decodeDouble()
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(value.toLong()), ZoneId.systemDefault())
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(value.toLong()), ZoneId.of("UTC"))
     }
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        encoder.encodeString(value.minusHours(1).toString())
+        encoder.encodeString(value.toString())
     }
 }

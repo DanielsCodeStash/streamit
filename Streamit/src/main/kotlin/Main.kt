@@ -3,8 +3,8 @@ const val maxComments =
 
 fun main() {
 
-    val initialBearer = "-fMriHoIZlZNlZ8OZ47xWIKMjTAozBw"
-    val elasticUrl = "http://172.29.192.215:9200/streamit/_doc/"
+    val initialBearer = "-GyQlnGFHava8meph1YCnos5zigPBzg"
+    val elasticUrl = "http://172.19.43.76:9200/streamit/_doc/"
 
     val commentStreamer = CommentStreamer(initialBearer, elasticUrl)
 
